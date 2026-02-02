@@ -19,10 +19,8 @@ import ast
 import subprocess
 import Voltage
 
-
-
-
 steadyMode = 0
+OLED_connection = 1
 
 def get_cpu_tempfunc():
     """ Return CPU temperature """
