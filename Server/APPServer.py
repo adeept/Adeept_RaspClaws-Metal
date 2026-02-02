@@ -189,8 +189,11 @@ async def recv_msg(websocket):
             functionSelect(data, response)
 
             if 'get_info' == data:
+                if OLED_connection:
+                    vol = batteryMonitor.get_battery_percentage()
+                    screen.screen_show(5,f'bat level:{vol}%')
                 response['title'] = 'get_info'
-                response['data'] = [info.get_cpu_tempfunc(), info.get_cpu_use(), info.get_ram_info(), batteryMonitor.get_battery_percentage()]
+                response['data'] = [info.get_cpu_tempfunc(), info.get_cpu_use(), info.get_ram_info(), vol]
             if 'wsB' in data:
                 try:
                     set_B=data.split()
