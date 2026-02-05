@@ -1,14 +1,26 @@
-#!/usr/bin/env/python
+#!/usr/bin/env python3
 # File name   : initPosServos.py
-# Website     : www.Adeept.com
-# Author      : Adeept
-# Date        : 2025/04/8
+# Author	  : Adeept
+
+from board import SCL, SDA
+import busio
+from adafruit_motor import servo
+from adafruit_pca9685 import PCA9685
 import time
-import Adafruit_PCA9685
 
-pwm = Adafruit_PCA9685.PCA9685(address=0x5F, busnum=1)
-pwm.set_pwm_freq(50)
+i2c = busio.I2C(SCL, SDA)
+pwm_servo = PCA9685(i2c, address=0x5f)  
+pwm_servo.frequency = 50  
 
-while 1:
-	pwm.set_all_pwm(0, 300)
-	time.sleep(1)
+servo_num = 16
+
+for i in range(servo_num):
+    servo_angle = servo.Servo(
+        pwm_servo.channels[i], 
+        min_pulse=500, 
+        max_pulse=2400,
+        actuation_range=180
+    )
+    servo_angle.angle = 90
+while True:
+    time.sleep(1)
